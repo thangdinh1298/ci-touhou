@@ -22,12 +22,8 @@ public class GameCanvas extends JPanel {
     int backGroundX = 0;
     int backGroundY = 0;
 
-
-
     BufferedImage backBuffer;
     Graphics backGraphics;
-
-
 
     Boss boss1 = new Boss();
 
