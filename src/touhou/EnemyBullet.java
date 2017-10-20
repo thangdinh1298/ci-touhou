@@ -1,30 +1,24 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-public class EnemyBullet {
-    int x = Boss.x + 17 ;
-    int y = Boss.y + 50;
-    BufferedImage image;
+public class EnemyBullet extends GameObject {
 
     final int SPEED = 2;
 
-    public EnemyBullet(){
+    public EnemyBullet(float xCoor, float yCoor){
         image = Utils.loadImage("assets/images/enemies/bullets/blue.png");
-    }
-    public static void createBullet(ArrayList<EnemyBullet> enemyBullets){
-        EnemyBullet bullet = new EnemyBullet();
-        enemyBullets.add(bullet);
+        x = xCoor;
+        y = yCoor;
     }
 
     public void run(){
         y += SPEED;
     }
-    public void render(Graphics g){
-        g.drawImage(image, x,y, null);
-    }
+
 }

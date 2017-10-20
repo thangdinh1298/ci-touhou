@@ -1,12 +1,17 @@
+import bases.Rectangles;
+
 import java.util.ArrayList;
 
 
 public class Program {
     public static void main(String[] args) {
-//        GameWindow gameWindow = new GameWindow();
-//        gameWindow.GameLoop();
-          Vector2D v = new Vector2D(2,3);
-          System.out.println(v.length());
+        Rectangles rec1 = new Rectangles(3,4,5,6);
+        System.out.println(rec1.collided(new Rectangles(12,13,14,15)));
+
+        GameWindow gameWindow = new GameWindow();
+        gameWindow.GameLoop();
+
+
 
     }
 }

@@ -19,15 +19,10 @@ public class GameCanvas extends JPanel {
 
     Player player = new Player();
 
-
-    ArrayList<EnemyBullet> enemybullets = new ArrayList<>();
-
-
     int backGroundX = 0;
     int backGroundY = 0;
 
 
-    long lastExec = 0;
 
     BufferedImage backBuffer;
     Graphics backGraphics;
@@ -52,6 +47,7 @@ public class GameCanvas extends JPanel {
         }
 
         GameObject.add(player);
+        GameObject.add(boss1);
 
     }
 

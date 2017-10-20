@@ -31,9 +31,7 @@ public class GameObject {
         newGameObject.add(gameObject);
     }
 
-    public GameObject(){
 
-    }
     public void run(){
 
     }

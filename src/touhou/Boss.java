@@ -1,5 +1,6 @@
 package touhou;
 
+import bases.GameObject;
 import bases.Utils;
 
 import java.awt.*;
@@ -9,18 +10,15 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Boss {
-    public static int x = 175;
-    public static int y = -100;
+public class Boss extends GameObject {
 
     ArrayList<String> direction = new ArrayList<>(Arrays.asList("left", "right", "up","down","upleft","upright","downleft","downright"));
 
     final int SPEED = 2;
 
-    BufferedImage image;
+    int coolDownTime = 0;
 
     int rightStep;
-    int diagStep;
     int upStep;
     int leftStep;
     int downStep;
@@ -38,6 +36,8 @@ public class Boss {
 
     public Boss() {
         image = Utils.loadImage("assets/images/enemies/level0/black/0.png");
+        x = 175;
+        y = -100;
     }
 
     public void initVal() {
@@ -155,16 +155,17 @@ public class Boss {
         }
     }
 
-
-    public void render(Graphics g){
-        g.drawImage(image, x, y, null);
-    }
     public void run(){
 
         if(this.appeared == false){
             this.appear();
         }
         else if(this.appeared == true){
+            if(coolDownTime >= 10){
+                shoot();
+                coolDownTime = 0;
+            }
+            else coolDownTime++;
             if(this.iteration == false){
                 this.movePattern();
             }
@@ -172,18 +173,23 @@ public class Boss {
                 initVal();
                 this.iteration = false;
             }
+
         }
     }
+    public void shoot(){
+            EnemyBullet bullet = new EnemyBullet(x,y);
+            GameObject.add(bullet);
+    }
     private int randomStepRight(){
-        return ThreadLocalRandom.current().nextInt(1, 384 - this.x)/SPEED;
+        return ThreadLocalRandom.current().nextInt(1, 384 -(int) this.x)/SPEED;
     }
     private int randomStepLeft(){
-        return ThreadLocalRandom.current().nextInt(1,this.x )/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,(int)this.x )/SPEED;
     }
     private int randomStepUp(){
-        return ThreadLocalRandom.current().nextInt(1,this.y )/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,(int)this.y )/SPEED;
     }
     private  int randomStepDown(){
-        return ThreadLocalRandom.current().nextInt(1,300 - this.y)/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,300 - (int)this.y)/SPEED;
     }
 }
