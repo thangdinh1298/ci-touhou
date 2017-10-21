@@ -1,10 +1,9 @@
-package touhou;
+package touhou.enemies;
 
 import bases.GameObject;
 import bases.Utils;
+import bases.physics.BoxCollider;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,13 +30,17 @@ public class Boss extends GameObject {
 
     int countAppear = 0;
 
+    public BoxCollider boxCollider;
+
     public boolean appeared = false;
     boolean iteration = false;
 
     public Boss() {
         image = Utils.loadImage("assets/images/enemies/level0/black/0.png");
-        x = 175;
-        y = -100;
+
+        position.set(175,-100);
+        boxCollider = new BoxCollider(30,30);
+
     }
 
     public void initVal() {
@@ -60,7 +63,7 @@ public class Boss extends GameObject {
         }
         if (direction.get(index) == "left") {
             if (countLeft < leftStep) {
-                x -= SPEED;
+                position.x -= SPEED;
                 countLeft++;
             } else if (countLeft >= leftStep)
                 {
@@ -70,7 +73,7 @@ public class Boss extends GameObject {
         }
         else if ( direction.get(index) == "right"){
             if (countRight < rightStep) {
-                x += SPEED;
+                position.x += SPEED;
                 countRight++;
             } else if (countRight >= rightStep){
                 index++;
@@ -78,7 +81,7 @@ public class Boss extends GameObject {
         }
         else if ( direction.get(index) == "up"){
             if (countUp < upStep) {
-                y -= SPEED;
+                position.y -= SPEED;
                 countUp++;
             } else if (countUp >= upStep){
                 index++;
@@ -86,7 +89,7 @@ public class Boss extends GameObject {
         }
         else if(direction.get(index) == "down"){
             if (countDown < downStep) {
-                y += SPEED;
+                position.y += SPEED;
                 countDown++;
             } else if (countDown >= downStep){
                 index++;
@@ -94,11 +97,11 @@ public class Boss extends GameObject {
         }
         else if(direction.get(index) == "upleft"){
             if (countLeft < leftStep) {
-                x -= SPEED;
+                position.x -= SPEED;
                 countLeft++;
             }
             if (countUp < upStep) {
-                y -= SPEED;
+                position.y -= SPEED;
                 countUp++;
             }
             if(countLeft >= leftStep || countUp >= upStep)
@@ -106,11 +109,11 @@ public class Boss extends GameObject {
         }
         else if(direction.get(index) == "upright"){
             if (countRight < rightStep) {
-                x += SPEED;
+                position.x += SPEED;
                 countRight++;
             }
             if (countUp < upStep) {
-                y -= SPEED;
+                position.y -= SPEED;
                 countUp++;
             }
             if(countRight >= rightStep || countUp >= upStep)
@@ -118,11 +121,11 @@ public class Boss extends GameObject {
         }
         else if(direction.get(index) == "downright"){
             if (countRight < rightStep) {
-                x += SPEED;
+                position.x += SPEED;
                 countRight++;
             }
             if (countDown < downStep) {
-                y += SPEED;
+                position.y += SPEED;
                 countDown++;
             }
             if(countRight >= rightStep || countDown >= downStep)
@@ -130,11 +133,11 @@ public class Boss extends GameObject {
         }
         else if(direction.get(index) == "downleft"){
             if (countLeft < leftStep) {
-                x -= SPEED;
+                position.x -= SPEED;
                 countLeft++;
             }
             if (countDown < downStep) {
-                y += SPEED;
+                position.y += SPEED;
                 countDown++;
             }
             if(countLeft >= leftStep || countDown >= downStep)
@@ -146,7 +149,7 @@ public class Boss extends GameObject {
 
     public void appear(){
         if(countAppear < 34){
-            y += 5;
+            position.y += 5;
             countAppear++;
         }
         else {
@@ -161,7 +164,7 @@ public class Boss extends GameObject {
             this.appear();
         }
         else if(this.appeared == true){
-            if(coolDownTime >= 10){
+            if(coolDownTime >= 30){
                 shoot();
                 coolDownTime = 0;
             }
@@ -175,21 +178,29 @@ public class Boss extends GameObject {
             }
 
         }
+
+        boxCollider.position.set(this.position);
+
+        //position.addup(0,2);
     }
     public void shoot(){
-            EnemyBullet bullet = new EnemyBullet(x,y);
+            EnemyBullet bullet = new EnemyBullet(position.x,position.y);
             GameObject.add(bullet);
     }
     private int randomStepRight(){
-        return ThreadLocalRandom.current().nextInt(1, 384 -(int) this.x)/SPEED;
+        return ThreadLocalRandom.current().nextInt(1, 384 -(int) this.position.x)/SPEED;
     }
     private int randomStepLeft(){
-        return ThreadLocalRandom.current().nextInt(1,(int)this.x )/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,(int)this.position.x )/SPEED;
     }
     private int randomStepUp(){
-        return ThreadLocalRandom.current().nextInt(1,(int)this.y )/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,(int)this.position.y )/SPEED;
     }
     private  int randomStepDown(){
-        return ThreadLocalRandom.current().nextInt(1,300 - (int)this.y)/SPEED;
+        return ThreadLocalRandom.current().nextInt(1,300 - (int)this.position.y)/SPEED;
+    }
+
+    public void getHit() {
+        isActive = false;
     }
 }

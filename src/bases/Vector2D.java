@@ -1,9 +1,11 @@
+package bases;
+
 import static java.lang.Math.sqrt;
 
 public class Vector2D {
 
-    float x;
-    float y;
+    public float x;
+    public float y;
 
     public Vector2D(){
         this(0,0);
@@ -15,13 +17,13 @@ public class Vector2D {
     }
 
 
-    public void print(){
-        System.out.println("x = " + this.x + "," + "y = " +this.y);
-    }
-
     public void set(float x , float y) {
         this.x = x;
         this.y = y;
+    }
+    public void set(Vector2D vector2D){
+        this.set(vector2D.x,vector2D.y);
+
     }
 
     public Vector2D clone(){
@@ -64,7 +66,7 @@ public class Vector2D {
 
 
     public Vector2D subtract(Vector2D vector2D){
-//        Vector2D newVector2D = new Vector2D(this.x - vector2D.x, this.y - vector2D.y);
+//        bases.Vector2D newVector2D = new bases.Vector2D(this.x - vector2D.x, this.y - vector2D.y);
         return new Vector2D(this.x - vector2D.x, this.y - vector2D.y );
     }
 
@@ -75,5 +77,18 @@ public class Vector2D {
 
     public double length(){
         return sqrt(this.x*this.x + this.y * this.y);
+    }
+
+    public Vector2D normalize (){
+        float length  = (float) length();
+        return new Vector2D(this.x/length, this.y/length);
+    }
+
+    @Override //ham luon duoc goi khi dung sout;
+    public String toString() {
+        return "bases.Vector2D{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

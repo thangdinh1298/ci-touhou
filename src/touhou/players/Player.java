@@ -1,12 +1,10 @@
-package touhou;
+package touhou.players;
 
 import bases.GameObject;
 import bases.Utils;
+import bases.Vector2D;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 public class Player extends GameObject {
 
@@ -23,14 +21,14 @@ public class Player extends GameObject {
 
     final int SPEED = 5;
     final int LEFT = 0;
-    final int RIGHT = 352;
+    final int RIGHT = 384;
     final int TOP = 0;
-    final int BOTTOM = 500;
+    final int BOTTOM = 552;
 
     public Player(){
         image = Utils.loadImage("assets/images/players/straight/0.png");
-        x = 182;
-        y = 500;
+        position.x = 182;
+        position.y = 500;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -77,28 +75,29 @@ public class Player extends GameObject {
         shoot();
     }
 
+    Vector2D velocity = new Vector2D();
+
     private void move() {
-        int vx = 0;
-        int vy = 0;
+        velocity.set(0,0);
 
         if(rightPressed ){
-            vx += SPEED;
+            velocity.x += SPEED;
         }
         if(leftPressed ){
-            vx -= SPEED;
+            velocity.x -= SPEED;
         }
         if(upPressed){
-            vy -= SPEED;
+            velocity.y -= SPEED;
         }
         if(downPressed){
-            vy += SPEED;
+            velocity.y += SPEED;
         }
 
-        x = x + vx;
-        y = y + vy;
+        position.addUp(velocity);
 
-        x = (int) Utils.clamp(x, LEFT, RIGHT);
-        y = (int) Utils.clamp(y, TOP, BOTTOM);
+
+        position.x = (int) Utils.clamp(position.x, LEFT, RIGHT);
+        position.y = (int) Utils.clamp(position.y, TOP, BOTTOM);
     }
 
     int coolDownCount = 0;
@@ -114,8 +113,7 @@ public class Player extends GameObject {
 
         if (xPressed) {
             Spell newSpell = new Spell();
-            newSpell.x = x;
-            newSpell.y = y;
+            newSpell.position.set(this.position.add(0,-24));
 
             GameObject.add(newSpell);
 
