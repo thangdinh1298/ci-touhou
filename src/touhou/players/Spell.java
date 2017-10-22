@@ -16,6 +16,7 @@ public class Spell extends GameObject {
 
     public Spell(){
         image = Utils.loadImage("assets/images/player-bullets/a/0.png");
+
         boxCollider = new BoxCollider(20,20);
     }
     public void run(){
