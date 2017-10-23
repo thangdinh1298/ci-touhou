@@ -1,4 +1,5 @@
 import bases.GameObject;
+import touhou.backgrounds.BackGround;
 import touhou.enemies.Boss;
 import touhou.enemies.EnemiesSpawner;
 import touhou.players.Player;
@@ -10,6 +11,8 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import static bases.GameObject.gameOver;
 
 public class GameCanvas extends JPanel {
 
@@ -25,6 +28,7 @@ public class GameCanvas extends JPanel {
 
     Boss boss1 = new Boss();
 
+    BackGround backGround = new BackGround();
 
 
     public GameCanvas(){
@@ -34,12 +38,7 @@ public class GameCanvas extends JPanel {
         backGraphics = backBuffer.getGraphics();
 
         //1.load background
-        try {
-            background = ImageIO.read(new File("assets/images/background/0.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        GameObject.add(backGround);
         GameObject.add(player);
         GameObject.add(new EnemiesSpawner());
 
@@ -48,7 +47,7 @@ public class GameCanvas extends JPanel {
     public void render(){
         //1.Draw everything on back buffer
 
-        backGraphics.drawImage(background, backGroundX, backGroundY, null);
+
         GameObject.renderAll(backGraphics);
 
 
@@ -66,7 +65,7 @@ public  void keyReleased (KeyEvent e){
 }
     public void run() {
         GameObject.runAll();
-        System.out.println(player.isActive);
+        System.out.println(gameOver);
     }
 
 

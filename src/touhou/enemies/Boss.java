@@ -179,7 +179,10 @@ public class Boss extends GameObject {
 
         }
         boxCollider.position.set(this.position);
-        GameObject.playerHit(this.boxCollider);
+        if(GameObject.playerHit(this.boxCollider)){
+            GameObject.gameOver = true;
+            stop();
+        }
 
 
         //position.addup(0,2);

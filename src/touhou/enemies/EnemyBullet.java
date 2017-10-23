@@ -20,7 +20,11 @@ public class EnemyBullet extends GameObject {
 
     public void run(){
         this.boxCollider.position.set(position);
-        GameObject.playerHit(this.boxCollider);
+        if(GameObject.playerHit(this.boxCollider)){
+            GameObject.gameOver = true;
+            stop();
+        }
+
         position.addUp(0,SPEED);
     }
 

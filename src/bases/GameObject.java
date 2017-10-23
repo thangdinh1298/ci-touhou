@@ -1,6 +1,7 @@
 package bases;
 
 import bases.physics.BoxCollider;
+import touhou.backgrounds.BackGround;
 import touhou.enemies.Boss;
 import touhou.players.Player;
 
@@ -11,6 +12,8 @@ import java.util.Vector;
 
 public class GameObject {
     public Vector2D position;
+
+    public static boolean gameOver ;
 
 
     public BufferedImage image;
@@ -71,13 +74,22 @@ public class GameObject {
         }
         return null;
     }
-    public static void playerHit(BoxCollider boxCollider){
+    public static boolean playerHit(BoxCollider boxCollider){
         for(GameObject gameObject: gameObjects){
             if(gameObject instanceof  Player){
                 Player player = (Player) gameObject;
                 if(player.boxCollider.collideWith(boxCollider)){
                     player.isActive = false;
+                    return true;
                 }
+            }
+        }
+        return false;
+    }
+    public static void stop(){
+        for(GameObject gameObject: gameObjects){
+            if(!(gameObject instanceof BackGround)){
+                gameObject.isActive = false;
             }
         }
     }

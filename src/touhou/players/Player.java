@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 public class Player extends GameObject {
 
 
+
     boolean rightPressed;
     boolean leftPressed;
     boolean downPressed;

@@ -5,7 +5,6 @@ import touhou.enemies.Boss;
 
 public class Program {
     public static void main(String[] args) {
-        Vector2D v = new Vector2D();
 
         GameWindow gameWindow = new GameWindow();
         gameWindow.GameLoop();
