@@ -37,8 +37,6 @@ public class Boss extends GameObject {
 
     public Boss() {
         image = Utils.loadImage("assets/images/enemies/level0/black/0.png");
-
-        position.set(175,-100);
         boxCollider = new BoxCollider(30,30);
 
     }
@@ -160,6 +158,8 @@ public class Boss extends GameObject {
 
     public void run(){
 
+
+
         if(this.appeared == false){
             this.appear();
         }
@@ -178,8 +178,9 @@ public class Boss extends GameObject {
             }
 
         }
-
         boxCollider.position.set(this.position);
+        GameObject.playerHit(this.boxCollider);
+
 
         //position.addup(0,2);
     }

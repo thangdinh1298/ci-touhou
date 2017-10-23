@@ -9,7 +9,7 @@ public class EnemiesSpawner extends GameObject {
 
     Random random = new Random();
 
-    FrameCounter frameCounter = new FrameCounter(300);
+    FrameCounter frameCounter = new FrameCounter(120);
 
     @Override
     public void run(){
@@ -20,7 +20,9 @@ public class EnemiesSpawner extends GameObject {
     }
     private void spawn(){
         Boss boss = new Boss();
-        position.set(10,random.nextInt(360));
+        boss.position.x = random.nextInt(360);
+        boss.position.y = -75;
+        boss.boxCollider.position.set(boss.position);
         GameObject.add(boss);
 
     }

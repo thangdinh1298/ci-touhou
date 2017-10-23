@@ -2,6 +2,7 @@ package bases;
 
 import bases.physics.BoxCollider;
 import touhou.enemies.Boss;
+import touhou.players.Player;
 
 import java.awt.*;
 
@@ -69,5 +70,15 @@ public class GameObject {
             }
         }
         return null;
+    }
+    public static void playerHit(BoxCollider boxCollider){
+        for(GameObject gameObject: gameObjects){
+            if(gameObject instanceof  Player){
+                Player player = (Player) gameObject;
+                if(player.boxCollider.collideWith(boxCollider)){
+                    player.isActive = false;
+                }
+            }
+        }
     }
 }

@@ -1,16 +1,14 @@
+import bases.GameObject;
 import bases.Vector2D;
+import touhou.enemies.Boss;
 
 
 public class Program {
     public static void main(String[] args) {
         Vector2D v = new Vector2D();
-        System.out.println(v);
 
         GameWindow gameWindow = new GameWindow();
         gameWindow.GameLoop();
-
-
-
     }
 }
 //        Base base = new Base();

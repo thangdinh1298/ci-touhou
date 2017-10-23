@@ -66,6 +66,7 @@ public  void keyReleased (KeyEvent e){
 }
     public void run() {
         GameObject.runAll();
+        System.out.println(player.isActive);
     }
 
 

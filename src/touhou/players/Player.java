@@ -3,6 +3,7 @@ package touhou.players;
 import bases.GameObject;
 import bases.Utils;
 import bases.Vector2D;
+import bases.physics.BoxCollider;
 
 import java.awt.event.KeyEvent;
 
@@ -25,10 +26,13 @@ public class Player extends GameObject {
     final int TOP = 0;
     final int BOTTOM = 552;
 
+    public BoxCollider boxCollider = new BoxCollider(10,10);
+
     public Player(){
         image = Utils.loadImage("assets/images/players/straight/0.png");
         position.x = 182;
         position.y = 500;
+        boxCollider.position.set(this.position);
     }
 
     public void keyPressed(KeyEvent e) {
@@ -95,7 +99,7 @@ public class Player extends GameObject {
 
         position.addUp(velocity);
 
-
+        boxCollider.position.set(this.position);
         position.x = (int) Utils.clamp(position.x, LEFT, RIGHT);
         position.y = (int) Utils.clamp(position.y, TOP, BOTTOM);
     }
@@ -120,5 +124,7 @@ public class Player extends GameObject {
             spellDisabled = true;
         }
     }
+
+
 
 }
