@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-import static bases.GameObject.gameOver;
 
 public class GameCanvas extends JPanel {
 

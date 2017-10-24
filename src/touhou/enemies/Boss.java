@@ -3,6 +3,7 @@ package touhou.enemies;
 import bases.GameObject;
 import bases.Utils;
 import bases.physics.BoxCollider;
+import touhou.players.Player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -178,7 +179,7 @@ public class Boss extends GameObject {
 
         }
         boxCollider.position.set(this.position);
-        if(GameObject.playerHit(this.boxCollider)){
+        if(Player.playerHit(this.boxCollider)){
             GameObject.gameOver = true;
             stop();
         }

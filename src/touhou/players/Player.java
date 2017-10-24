@@ -9,7 +9,7 @@ import java.awt.event.KeyEvent;
 
 public class Player extends GameObject {
 
-
+    public static boolean isActive;
 
     boolean rightPressed;
     boolean leftPressed;
@@ -27,13 +27,14 @@ public class Player extends GameObject {
     final int TOP = 0;
     final int BOTTOM = 552;
 
-    public BoxCollider boxCollider = new BoxCollider(10,10);
+    public static BoxCollider boxCollider = new BoxCollider(10,10);
 
     public Player(){
         image = Utils.loadImage("assets/images/players/straight/0.png");
         position.x = 182;
         position.y = 500;
         boxCollider.position.set(this.position);
+        isActive = true;
     }
 
     public void keyPressed(KeyEvent e) {
@@ -124,6 +125,14 @@ public class Player extends GameObject {
 
             spellDisabled = true;
         }
+    }
+
+    public static boolean playerHit(BoxCollider boxCollider){
+        if(Player.boxCollider.collideWith(boxCollider)){
+            Player.isActive = false;
+            return true;
+        }
+        return false;
     }
 
 

@@ -74,18 +74,7 @@ public class GameObject {
         }
         return null;
     }
-    public static boolean playerHit(BoxCollider boxCollider){
-        for(GameObject gameObject: gameObjects){
-            if(gameObject instanceof  Player){
-                Player player = (Player) gameObject;
-                if(player.boxCollider.collideWith(boxCollider)){
-                    player.isActive = false;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+
     public static void stop(){
         for(GameObject gameObject: gameObjects){
             if(!(gameObject instanceof BackGround)){

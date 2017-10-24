@@ -3,6 +3,7 @@ package touhou.enemies;
 import bases.GameObject;
 import bases.Utils;
 import bases.physics.BoxCollider;
+import touhou.players.Player;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,7 @@ public class EnemyBullet extends GameObject {
 
     public void run(){
         this.boxCollider.position.set(position);
-        if(GameObject.playerHit(this.boxCollider)){
+        if(Player.playerHit(this.boxCollider)){
             GameObject.gameOver = true;
             stop();
         }
