@@ -65,7 +65,6 @@ public class Boss extends GameObject {
                 countLeft++;
             } else if (countLeft >= leftStep)
                 {
-                System.out.println(index);
                 index++;
             }
         }
