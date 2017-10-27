@@ -6,7 +6,7 @@ import bases.GameObject;
 import java.util.Random;
 
 public class EnemiesSpawner extends GameObject {
-
+    boolean bool = true;
     Random random = new Random();
 
     FrameCounter frameCounter = new FrameCounter(120);

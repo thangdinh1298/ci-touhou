@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class BackGround extends GameObject {
+    public static BufferedImage image;
+
     public BackGround(){
         image  = Utils.loadImage("assets/images/background/0.png");
         this.position.set(0,0);
@@ -30,6 +32,12 @@ public class BackGround extends GameObject {
                     (int) position.y ,
                     null);
         }
+    }
+    public static int getHeight(){
+        return BackGround.image.getHeight();
+    }
+    public static int getWidth(){
+        return BackGround.image.getWidth();
     }
 }
 

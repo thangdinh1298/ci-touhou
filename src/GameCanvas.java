@@ -4,7 +4,7 @@ import touhou.enemies.Boss;
 import touhou.enemies.EnemiesSpawner;
 import touhou.players.Player;
 
-import javax.imageio.ImageIO;
+import touhou.players.playerOrb;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -29,6 +29,9 @@ public class GameCanvas extends JPanel {
 
     BackGround backGround = new BackGround();
 
+    playerOrb orb1;
+    playerOrb orb2;
+
 
     public GameCanvas(){
 
@@ -36,9 +39,14 @@ public class GameCanvas extends JPanel {
         backBuffer = new BufferedImage(800,600,BufferedImage.TYPE_INT_ARGB);
         backGraphics = backBuffer.getGraphics();
 
-        //1.load background
         GameObject.add(backGround);
         GameObject.add(player);
+        orb1 = new playerOrb(30);
+        GameObject.add(orb1);
+        orb2 = new playerOrb(-30);
+        GameObject.add(orb2);
+        orb1.playerPosition = player.position;
+        orb2.playerPosition = player.position;
         GameObject.add(new EnemiesSpawner());
 
     }
@@ -54,14 +62,6 @@ public class GameCanvas extends JPanel {
         //2.call repaint
         repaint();
     }
-public void keyPressed (KeyEvent e){
-        player.keyPressed(e);
-
-}
-public  void keyReleased (KeyEvent e){
-    player.keyReleased(e);
-
-}
     public void run() {
         GameObject.runAll();
     }

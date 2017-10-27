@@ -4,21 +4,16 @@ import bases.GameObject;
 import bases.Utils;
 import bases.Vector2D;
 import bases.physics.BoxCollider;
+import bases.physics.PhysicsBody;
+import touhou.inputs.InputManager;
 
 import java.awt.event.KeyEvent;
 
-public class Player extends GameObject {
+public class Player extends GameObject implements PhysicsBody {
 
     public static boolean isActive;
 
-    boolean rightPressed;
-    boolean leftPressed;
-    boolean downPressed;
-    boolean upPressed;
-    boolean xPressed;
-
-    boolean spellDisabled = false;
-    final int COOLDOWNTIME = 10; // frames
+    PlayerCastSpell playerCastSpell;
 
 
     final int SPEED = 5;
@@ -26,6 +21,7 @@ public class Player extends GameObject {
     final int RIGHT = 384;
     final int TOP = 0;
     final int BOTTOM = 552;
+
 
     public static BoxCollider boxCollider = new BoxCollider(10,10);
 
@@ -35,50 +31,15 @@ public class Player extends GameObject {
         position.y = 500;
         boxCollider.position.set(this.position);
         isActive = true;
+
+        playerCastSpell = new PlayerCastSpell();
     }
 
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            rightPressed = true;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT){
-            leftPressed = true;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_UP){
-            upPressed = true;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            downPressed = true;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_X){
-            xPressed = true;
-        }
 
-    }
-
-    public void keyReleased(KeyEvent e) {
-
-        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            rightPressed = false;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_LEFT){
-            leftPressed = false;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_UP){
-            upPressed = false;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_DOWN){
-            downPressed = false;
-        }
-        if(e.getKeyCode() == KeyEvent.VK_X){
-            xPressed = false;
-        }
-    }
 
     public void run(){
-
         move();
-        shoot();
+        playerCastSpell.run(this);
     }
 
     Vector2D velocity = new Vector2D();
@@ -86,16 +47,18 @@ public class Player extends GameObject {
     private void move() {
         velocity.set(0,0);
 
-        if(rightPressed ){
+        InputManager inputManager = InputManager.instance;
+
+        if(inputManager.rightPressed){
             velocity.x += SPEED;
         }
-        if(leftPressed ){
+        if(inputManager.leftPressed ){
             velocity.x -= SPEED;
         }
-        if(upPressed){
+        if(inputManager.upPressed){
             velocity.y -= SPEED;
         }
-        if(downPressed){
+        if(inputManager.downPressed){
             velocity.y += SPEED;
         }
 
@@ -106,35 +69,18 @@ public class Player extends GameObject {
         position.y = (int) Utils.clamp(position.y, TOP, BOTTOM);
     }
 
-    int coolDownCount = 0;
-    public void shoot(){
-        if(spellDisabled){
-            coolDownCount++;
-            if(coolDownCount >= COOLDOWNTIME){
-                spellDisabled = false;
-                coolDownCount = 0;
-            }
-            return;
-        }
 
-        if (xPressed) {
-            Spell newSpell = new Spell();
-            newSpell.position.set(this.position.add(0,-24));
 
-            GameObject.add(newSpell);
+//    public static boolean playerHit(BoxCollider boxCollider){
+//        if(Player.boxCollider.collideWith(boxCollider)){
+//            Player.isActive = false;
+//            return true;
+//        }
+//        return false;
+//    }
 
-            spellDisabled = true;
-        }
+    @Override
+    public BoxCollider getBoxCollider() {
+        return boxCollider;
     }
-
-    public static boolean playerHit(BoxCollider boxCollider){
-        if(Player.boxCollider.collideWith(boxCollider)){
-            Player.isActive = false;
-            return true;
-        }
-        return false;
-    }
-
-
-
 }

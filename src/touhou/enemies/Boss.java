@@ -1,20 +1,23 @@
 package touhou.enemies;
 
-import bases.GameObject;
 import bases.Utils;
+import bases.GameObject;
 import bases.physics.BoxCollider;
-import touhou.players.Player;
+import bases.physics.Deactivated;
+import bases.physics.PhysicsBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Boss extends GameObject {
+public class Boss extends GameObject implements PhysicsBody {
 
     ArrayList<String> direction = new ArrayList<>(Arrays.asList("left", "right", "up","down","upleft","upright","downleft","downright"));
 
     final int SPEED = 2;
+
+    PlayerDamage playerDamage;
 
     int coolDownTime = 0;
 
@@ -39,7 +42,7 @@ public class Boss extends GameObject {
     public Boss() {
         image = Utils.loadImage("assets/images/enemies/level0/black/0.png");
         boxCollider = new BoxCollider(30,30);
-
+        playerDamage = new PlayerDamage();
     }
 
     public void initVal() {
@@ -179,17 +182,16 @@ public class Boss extends GameObject {
 
         }
         boxCollider.position.set(this.position);
-        if(Player.playerHit(this.boxCollider)){
-            GameObject.gameOver = true;
-            stop();
-        }
+        this.playerDamage.run(this);
 
 
         //position.addup(0,2);
     }
+
+
     public void shoot(){
-            EnemyBullet bullet = new EnemyBullet(position.x,position.y);
-            GameObject.add(bullet);
+            EnemyBullet bullet = GameObject.recycle(EnemyBullet.class);
+            bullet.position.set(this.position);
     }
     private int randomStepRight(){
         return ThreadLocalRandom.current().nextInt(1, 384 -(int) this.position.x)/SPEED;
@@ -207,4 +209,10 @@ public class Boss extends GameObject {
     public void getHit() {
         isActive = false;
     }
+
+    @Override
+    public BoxCollider getBoxCollider() {
+        return boxCollider;
+    }
+
 }

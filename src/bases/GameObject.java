@@ -1,10 +1,15 @@
 package bases;
 
 import bases.physics.BoxCollider;
+import bases.physics.Deactivated;
+import bases.physics.PhysicsBody;
 import touhou.backgrounds.BackGround;
 import touhou.enemies.Boss;
+import touhou.enemies.EnemiesSpawner;
 import touhou.players.Player;
+import touhou.players.Spell;
 
+import javax.swing.*;
 import java.awt.*;
 
 import java.awt.image.BufferedImage;
@@ -39,6 +44,7 @@ public class GameObject {
 
     public static void renderAll(Graphics g){
         for(GameObject gameObject : gameObjects){
+            System.out.println(gameObjects.size());
             if(gameObject.isActive)
                 gameObject.render(g);
         }
@@ -63,13 +69,25 @@ public class GameObject {
         }
     }
 
-    public static Boss collideWith(BoxCollider boxCollider){
-        for(GameObject gameObject : gameObjects){
-            if (gameObject.isActive && gameObject instanceof Boss){
-                Boss boss = (Boss)gameObject;
-                if (boss.boxCollider.collideWith(boxCollider)){
-                    return boss;
-                }
+//    public static Boss collideWith(BoxCollider boxCollider){
+//        for(GameObject gameObject : gameObjects){
+//            if (gameObject.isActive && gameObject instanceof Boss){
+//                Boss boss = (Boss)gameObject;
+//                if (boss.boxCollider.collideWith(boxCollider)){
+//                    return boss;
+//                }
+//            }
+//        }
+//        return null;
+//    }
+
+    public static <T extends PhysicsBody > T collideWith(BoxCollider boxCollider, Class<? extends PhysicsBody> cls){
+        for(GameObject gameObject: gameObjects){
+            if(!(gameObject.isActive)) continue;
+            if (!(gameObject.getClass().equals(cls)))continue;
+
+            if(((PhysicsBody) gameObject).getBoxCollider().collideWith(boxCollider)){
+                return (T) gameObject;
             }
         }
         return null;
@@ -82,4 +100,24 @@ public class GameObject {
             }
         }
     }
+
+    public static <T extends GameObject > T recycle(Class<T> cls){
+        for(GameObject gameObject: gameObjects){
+            if (gameObject.isActive) continue;
+            if(gameObject.getClass().equals(cls)){
+                gameObject.isActive = true;
+                return (T) gameObject;
+            }
+        }
+        try {
+            T newGameObject1 = cls.newInstance();
+            add(newGameObject1);
+            return newGameObject1;
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
+
