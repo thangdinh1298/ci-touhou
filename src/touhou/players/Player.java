@@ -39,6 +39,7 @@ public class Player extends GameObject implements PhysicsBody {
 
     public void run(){
         move();
+        playerOrb.playerPosition = this.position;
         playerCastSpell.run(this);
     }
 

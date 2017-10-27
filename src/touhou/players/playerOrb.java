@@ -9,7 +9,7 @@ import bases.physics.PhysicsBody;
 public class playerOrb extends GameObject implements PhysicsBody {
     BoxCollider boxCollider ;
     public boolean isActive ;
-    public Vector2D playerPosition;
+    public static Vector2D playerPosition;
     float distance;
     PlayerOrbShoot orb = new PlayerOrbShoot();
 

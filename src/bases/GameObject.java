@@ -81,7 +81,7 @@ public class GameObject {
 //        return null;
 //    }
 
-    public static <T extends PhysicsBody > T collideWith(BoxCollider boxCollider, Class<? extends PhysicsBody> cls){
+    public static <T extends PhysicsBody > T collideWith(BoxCollider boxCollider, Class<T> cls){
         for(GameObject gameObject: gameObjects){
             if(!(gameObject.isActive)) continue;
             if (!(gameObject.getClass().equals(cls)))continue;
